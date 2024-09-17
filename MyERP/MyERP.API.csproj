@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyERP.Repository\MyERP.Repository.csproj" />
+    <ProjectReference Include="..\MyERP.Service\MyERP.Service.csproj" />
   </ItemGroup>
 
 </Project>
