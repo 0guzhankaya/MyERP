@@ -11,6 +11,7 @@ namespace MyERP.Core.Services
     {
         IQueryable<T> GetAll();
         Task<T> GetByIdAsync(int id);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         int Count();

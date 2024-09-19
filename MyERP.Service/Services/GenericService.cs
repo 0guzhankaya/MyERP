@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyERP.Service.Services
 {
-    public class GenericService<T> : IGenericService<T> where T : BaseEntity
+    public class GenericService<T> : IGenericRepository<T> where T : BaseEntity // IGenericService'den kalıtım alınacak.
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWorks _unitOfWorks;
@@ -19,7 +19,7 @@ namespace MyERP.Service.Services
         public GenericService(IGenericRepository<T> repository, IUnitOfWorks unitOfWorks)
         {
             _repository = repository;
-            this._unitOfWorks = unitOfWorks;
+            _unitOfWorks = unitOfWorks;
         }
 
         public async Task AddAsync(T entity)
@@ -29,6 +29,11 @@ namespace MyERP.Service.Services
 
             await _repository.AddAsync(entity);
             await _unitOfWorks.CommitAsync();
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _repository.AnyAsync(expression);
         }
 
         public void ChangeStatus(T entity)
