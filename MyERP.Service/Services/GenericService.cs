@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyERP.Service.Services
 {
-    public class GenericService<T> : IGenericRepository<T> where T : BaseEntity // IGenericService'den kalıtım alınacak.
+    public class GenericService<T> : IGenericService<T> where T : BaseEntity
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWorks _unitOfWorks;
@@ -22,13 +22,14 @@ namespace MyERP.Service.Services
             _unitOfWorks = unitOfWorks;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             entity.CreatedDate = DateTime.Now;
             entity.UpdatedDate = DateTime.Now;
 
             await _repository.AddAsync(entity);
             await _unitOfWorks.CommitAsync();
+            return entity;
         }
 
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)

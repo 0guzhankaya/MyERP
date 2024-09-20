@@ -49,6 +49,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// enable the middleware for serving the generated JSON document and Swagger UI,
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("../swagger/v1/swagger.json", "MyERP.API v1");
+    c.RoutePrefix = string.Empty; // Swagger's root URL is localhost
+});
+
 app.UseHttpsRedirection();
 
 

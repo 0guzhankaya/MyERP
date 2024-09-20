@@ -10,7 +10,7 @@ namespace MyERP.Core.Models
     {
         // One customer has many payments and one payment have one customer.
         // One customer has many sales and one sale have one customer.
-        //One to Many Relationship
+        // One to Many Relationship
 
         public string Name { get; set; }
         public ICollection<Payment> Payments { get; set; }

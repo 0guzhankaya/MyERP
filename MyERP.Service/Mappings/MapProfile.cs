@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MyERP.Core.DTOs;
+using MyERP.Core.DTOs.UpdateDTOs;
 using MyERP.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace MyERP.Service.Mappings
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Sale, SaleDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Customer, CustomerUpdateDto>().ReverseMap();
         }
     }
 }

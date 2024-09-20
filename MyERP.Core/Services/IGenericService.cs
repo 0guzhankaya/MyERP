@@ -13,7 +13,7 @@ namespace MyERP.Core.Services
         Task<T> GetByIdAsync(int id);
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
         int Count();
         void Update(T entity);
         void ChangeStatus(T entity);

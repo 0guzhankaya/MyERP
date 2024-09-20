@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MyERP.Core.Repositories;
+using MyERP.Core.Services;
 using MyERP.Core.UnitOfWorks;
 using MyERP.Repository;
 using MyERP.Repository.Repositories;
@@ -15,20 +16,29 @@ namespace MyERP.API.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerMatchingLifetimeScope();
-            builder.RegisterGeneric(typeof(GenericService<>)).As(typeof(IGenericRepository<>)).InstancePerMatchingLifetimeScope();
-            builder.RegisterType<UnitOfWorks>().As<IUnitOfWorks>();
+            // Generic repository and service registration
+            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(GenericService<>)).As(typeof(IGenericService<>)).InstancePerLifetimeScope();  // Corrected this line
 
-            // register type token handler
-            
-            var  apiAssembly = Assembly.GetExecutingAssembly();
+            // UnitOfWork registration
+            builder.RegisterType<UnitOfWorks>().As<IUnitOfWorks>().InstancePerLifetimeScope();
+
+            // Assemblies for repositories and services
+            var apiAssembly = Assembly.GetExecutingAssembly();
             var repoAssembly = Assembly.GetAssembly(typeof(AppDbContext));
             var serviceAssembly = Assembly.GetAssembly(typeof(MapProfile));
 
-            builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly).Where(x => x.Name.EndsWith("Repository"))
-                .AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly).Where(x => x.Name.EndsWith("Service"))
-                .AsImplementedInterfaces().InstancePerLifetimeScope();
+            // Register all repositories
+            builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly)
+                .Where(x => x.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            // Register all services
+            builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly)
+                .Where(x => x.Name.EndsWith("Service"))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
     }
 }

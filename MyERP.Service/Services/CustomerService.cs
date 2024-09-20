@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace MyERP.Service.Services
 {
     // Primary Constructor came in .NET8
-    public class CustomerService(IGenericRepository<Customer> repository, IUnitOfWorks unitOfWorks, ICustomerRepository customerRepository) : GenericService<Customer>(repository, unitOfWorks), ICustomerService
+    public class CustomerService(IGenericRepository<Customer> repository, IUnitOfWorks unitOfWorks, ICustomerRepository customerRepository) 
+        : GenericService<Customer>(repository, unitOfWorks), ICustomerService
     {
-        private readonly ICustomerRepository customerRepository = customerRepository; // Dependency Injection
     }
 }
