@@ -23,6 +23,8 @@ namespace MyERP.API.Modules
             // UnitOfWork registration
             builder.RegisterType<UnitOfWorks>().As<IUnitOfWorks>().InstancePerLifetimeScope();
 
+            builder.RegisterType<TokenHandler>().As<ITokenHandler>().InstancePerLifetimeScope();
+
             // Assemblies for repositories and services
             var apiAssembly = Assembly.GetExecutingAssembly();
             var repoAssembly = Assembly.GetAssembly(typeof(AppDbContext));

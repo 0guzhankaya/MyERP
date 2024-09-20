@@ -11,5 +11,6 @@ namespace MyERP.Core.DTOs.UpdateDTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public double UnitPrice { get; set; }
+        public int Stock { get; set; }
     }
 }

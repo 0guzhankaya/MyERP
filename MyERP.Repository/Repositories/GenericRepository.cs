@@ -23,6 +23,10 @@ namespace MyERP.Repository.Repositories
 
         public async Task AddAsync(T entity)
         {
+            // This is not what needs to be done, but the
+            // correct way is currently bug in .NET8 version
+            entity.Status = true; 
+
             await _dbSet.AddAsync(entity);
         }
 

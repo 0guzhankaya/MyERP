@@ -94,5 +94,19 @@ namespace MyERP.API.Controllers
 
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> SaleProduct(SaleDto saleDto)
+        {
+            // get user from token
+            int userId = 1;
+
+            var processedEntity = _mapper.Map<Sale>(saleDto);
+            processedEntity.UpdatedBy = userId;
+            processedEntity.CreatedBy = userId;
+            await _saleService.SaleProduct(processedEntity);
+
+            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+        }
     }
 }

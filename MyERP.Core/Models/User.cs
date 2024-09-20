@@ -9,6 +9,7 @@ namespace MyERP.Core.Models
     public class User : BaseEntity
     {
         public string Name { get; set; }
+        public string Email { get; set; }
         public int DepartmentId { get; set; }
         public int GroupId { get; set; }
         public byte[] PasswordSalt { get; set; }

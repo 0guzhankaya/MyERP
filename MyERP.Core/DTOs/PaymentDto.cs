@@ -11,6 +11,6 @@ namespace MyERP.Core.DTOs
     {
         public int CustomerId { get; set; }
         public double Amount { get; set; }
-        public CustomerDto Customer { get; set; }
+        public CustomerDto? Customer { get; set; }
     }
 }

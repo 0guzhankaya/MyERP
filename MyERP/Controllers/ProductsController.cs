@@ -78,6 +78,7 @@ namespace MyERP.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = product.Id }, CustomResponseDto<ProductDto>.Success(201, productResponseDto));
         }
 
+        [HttpPut]
         public async Task<IActionResult> Update(ProductUpdateDto productDto)
         {
             // get user from token
@@ -90,6 +91,20 @@ namespace MyERP.API.Controllers
 
             _productService.Update(currentProduct);
 
+            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> BuyProduct(ProductDto productDto)
+        {
+            // get user from token
+            int userId = 1;
+
+            var processedEntity = _mapper.Map<Product>(productDto);
+            processedEntity.UpdatedBy = userId;
+            processedEntity.CreatedBy = userId;
+
+            await _productService.AddAsync(processedEntity);
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
         }
     }

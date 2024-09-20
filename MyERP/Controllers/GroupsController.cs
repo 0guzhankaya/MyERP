@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyERP.API.Filters;
@@ -31,7 +32,6 @@ namespace MyERP.API.Controllers
             return Ok(CustomResponseDto<List<GroupDto>>.Success(200, dtos));
         }
 
-
         [ServiceFilter(typeof(NotFoundFilter<Group>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -43,7 +43,6 @@ namespace MyERP.API.Controllers
 
             return Ok(CustomResponseDto<GroupDto>.Success(200, groupDto));
         }
-
 
         [ServiceFilter(typeof(NotFoundFilter<Group>))]
         [HttpGet("[action]")]
@@ -59,7 +58,6 @@ namespace MyERP.API.Controllers
             return NoContent(); 
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Save(GroupDto groupDto)
         {
@@ -73,7 +71,6 @@ namespace MyERP.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = groupResponseDto.Id }, CustomResponseDto<GroupDto>.Success(201, groupResponseDto));
         }
-
 
         [HttpPut]
         public async Task<IActionResult> Update(GroupUpdateDto groupDto)
@@ -89,6 +86,5 @@ namespace MyERP.API.Controllers
 
             return NoContent();
         }
-
     }
 }

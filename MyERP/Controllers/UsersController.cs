@@ -6,6 +6,7 @@ using MyERP.Core.DTOs;
 using MyERP.Core.DTOs.UpdateDTOs;
 using MyERP.Core.Models;
 using MyERP.Core.Services;
+using MyERP.Service.Hashing;
 
 namespace MyERP.API.Controllers
 {
@@ -70,6 +71,12 @@ namespace MyERP.API.Controllers
             processedEntity.UpdatedBy = userId;
             processedEntity.CreatedBy = userId;
 
+            // password
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePassword(userDto.Password, out passwordHash, out passwordSalt);
+            processedEntity.PasswordHash = passwordHash;
+            processedEntity.PasswordSalt = passwordSalt;
+
             var user = await _userService.AddAsync(processedEntity);
             var userResponseDto = _mapper.Map<UserDto>(user);
 
@@ -89,6 +96,19 @@ namespace MyERP.API.Controllers
             _userService.ChangeStatus(currentUser);
 
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        {
+            Token token = await _userService.Login(userLoginDto);
+
+            if (token == null)
+            {
+                return CreateActionResult(CustomResponseDto<NoContentDto>.Fail(401, "Error :("));
+            }
+
+            return CreateActionResult(CustomResponseDto<Token>.Success(200, token));
         }
     }
 }

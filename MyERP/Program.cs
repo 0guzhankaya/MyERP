@@ -1,16 +1,37 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MyERP.API.Filters;
 using MyERP.API.Middlewares;
 using MyERP.API.Modules;
 using MyERP.Repository;
 using MyERP.Service.Mappings;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // add jwt bearer - appsettings
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+    options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = false, // I'll change this to when its on live.
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Token:Issuer"],
+            ValidAudience = builder.Configuration["Token:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
+            ClockSkew = TimeSpan.Zero,
+        };
+    });
+{
+
+}
 
 // rate limiter
 

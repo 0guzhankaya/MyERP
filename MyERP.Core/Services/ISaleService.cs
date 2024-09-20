@@ -9,5 +9,6 @@ namespace MyERP.Core.Services
 {
     public interface ISaleService : IGenericService<Sale>
     {
+        Task SaleProduct(Sale sale);
     }
 }
